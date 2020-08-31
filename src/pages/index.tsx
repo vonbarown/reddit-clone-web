@@ -1,6 +1,8 @@
 import { Container } from "../components/Container";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { NavBar } from "../components/Navbar";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrlqClient";
 const Index = () => (
   <Container>
     <DarkModeSwitch />
@@ -8,4 +10,4 @@ const Index = () => (
   </Container>
 );
 
-export default Index;
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
