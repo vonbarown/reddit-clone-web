@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Wrapper } from "../components/Wrapper";
 import { Formik, Form } from "formik";
-import login from "./login";
-import { toErrorMap } from "../utils/toErrorMap";
 import { InputField } from "../components/InputField";
-import { Box, Flex, Link, Button } from "@chakra-ui/core";
+import { Box, Button } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrlqClient";
 import { useForgotPasswordMutation } from "../generated/graphql";
@@ -24,8 +22,8 @@ const ForgotPassword: React.FC<{}> = ({}) => {
         {({ isSubmitting }) =>
           complete ? (
             <Box>
-              Check your email, if you did not receive an email from us check
-              your spelling errors.
+              Check your email for your new token, if you did not receive an
+              email from us check your spelling errors.
             </Box>
           ) : (
             <Form>
