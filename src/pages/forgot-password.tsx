@@ -13,7 +13,7 @@ const ForgotPassword: React.FC<{}> = ({}) => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ email: "" }}
+        initialValues={{ usernameOrEmail: "" }}
         onSubmit={async (values) => {
           await forgotPassword(values);
           setComplete(true);
@@ -29,10 +29,9 @@ const ForgotPassword: React.FC<{}> = ({}) => {
             <Form>
               <Box mt={4}>
                 <InputField
-                  name="email"
-                  placeholder="email"
-                  label="Email"
-                  type="email"
+                  name="usernameOrEmail"
+                  placeholder="username or email"
+                  label="Username or Email"
                 />
               </Box>
               <Button
