@@ -1,13 +1,17 @@
-import { Container } from "../components/Container";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
-import { NavBar } from "../components/Navbar";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrlqClient";
+import { Layout } from "../components/Layout";
+import { Link } from "@chakra-ui/core";
+import NextLink from "next/link";
 const Index = () => (
-  <Container>
+  <Layout>
+    <NextLink href="/create-post">
+      <Link>create post</Link>
+    </NextLink>
+
     <DarkModeSwitch />
-    <NavBar />
-  </Container>
+  </Layout>
 );
 
 export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
