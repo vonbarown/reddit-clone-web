@@ -7,15 +7,13 @@ import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrlqClient";
 import { Layout } from "../components/Layout";
+import { useIsAuth } from "../utils/useIsAuth";
 
 const CreatePost: React.FC<{}> = () => {
-  const [{ data, fetching }] = useMeQuery();
   const router = useRouter();
-  useEffect(() => {
-    if (!fetching && !data?.me) {
-      router.replace("/login");
-    }
-  }, [data, router]);
+
+  useIsAuth();
+
   const [, createPost] = useCreatePostMutation();
   return (
     <Layout>
