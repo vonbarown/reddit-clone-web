@@ -54,7 +54,7 @@ export const cursorPagination = (): Resolver => {
       const data = cache.resolve(key, "posts") as string[];
       const _hasMore = cache.resolve(key, "hasMore");
 
-      if (_hasMore) {
+      if (!_hasMore) {
         hasMore = _hasMore as boolean;
       }
       results.push(...data);
