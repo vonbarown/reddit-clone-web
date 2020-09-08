@@ -2,20 +2,11 @@ import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrlqClient";
 import { Layout } from "../components/Layout";
-import {
-  Link,
-  Stack,
-  Box,
-  Heading,
-  Text,
-  Flex,
-  Button,
-  Icon,
-  IconButton,
-} from "@chakra-ui/core";
+import { Link, Stack, Box, Heading, Text, Flex, Button } from "@chakra-ui/core";
 import NextLink from "next/link";
 import { usePostsQuery } from "../generated/graphql";
 import { useState } from "react";
+import { UpvoteSection } from "../components/UpvoteSection";
 const Index = () => {
   const [variables, setVariables] = useState({
     limit: 10,
@@ -32,7 +23,6 @@ const Index = () => {
   return (
     <Layout>
       <DarkModeSwitch />
-
       <Flex align="center">
         <Heading>Voneddit</Heading>
         <NextLink href="/create-post">
@@ -48,6 +38,8 @@ const Index = () => {
           {data!.posts.posts.map((el) => (
             // <div key={el.id}>el.text</div>
             <Flex key={el.id} p={5} shadow="md" borderWidth="1px">
+              <UpvoteSection post={el} />
+
               <Box>
                 <Heading fontSize="xl">{el.title}</Heading>
                 <Text>posted by: {el.creator.username}</Text>
