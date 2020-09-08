@@ -2,7 +2,17 @@ import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrlqClient";
 import { Layout } from "../components/Layout";
-import { Link, Stack, Box, Heading, Text, Flex, Button } from "@chakra-ui/core";
+import {
+  Link,
+  Stack,
+  Box,
+  Heading,
+  Text,
+  Flex,
+  Button,
+  Icon,
+  IconButton,
+} from "@chakra-ui/core";
 import NextLink from "next/link";
 import { usePostsQuery } from "../generated/graphql";
 import { useState } from "react";
@@ -37,11 +47,13 @@ const Index = () => {
         <Stack spacing={8}>
           {data!.posts.posts.map((el) => (
             // <div key={el.id}>el.text</div>
-            <Box key={el.id} p={5} shadow="md" borderWidth="1px">
-              <Heading fontSize="xl">{el.title}</Heading>
-              <Text>posted by: {el.creator.username}</Text>
-              <Text mt={4}>{el.textSnippet}</Text>
-            </Box>
+            <Flex key={el.id} p={5} shadow="md" borderWidth="1px">
+              <Box>
+                <Heading fontSize="xl">{el.title}</Heading>
+                <Text>posted by: {el.creator.username}</Text>
+                <Text mt={4}>{el.textSnippet}</Text>
+              </Box>
+            </Flex>
           ))}
         </Stack>
       )}

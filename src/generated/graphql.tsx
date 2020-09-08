@@ -144,6 +144,15 @@ export type ErrorFragmentFragment = (
   & Pick<FieldError, 'field' | 'message'>
 );
 
+export type PostSnippetFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'title' | 'textSnippet' | 'points' | 'createdAt' | 'updatedAt'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username'>
+  ) }
+);
+
 export type UserFragmentFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'username'>
@@ -219,28 +228,6 @@ export type LogoutMutation = (
   & Pick<Mutation, 'logout'>
 );
 
-export type PostsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: Maybe<Scalars['String']>;
-}>;
-
-
-export type PostsQuery = (
-  { __typename?: 'Query' }
-  & { posts: (
-    { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'hasMore'>
-    & { posts: Array<(
-      { __typename?: 'Post' }
-      & Pick<Post, 'id' | 'title' | 'textSnippet' | 'points' | 'createdAt' | 'updatedAt'>
-      & { creator: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'username'>
-      ) }
-    )> }
-  ) }
-);
-
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -265,6 +252,38 @@ export type MeQuery = (
   )> }
 );
 
+export type PostsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type PostsQuery = (
+  { __typename?: 'Query' }
+  & { posts: (
+    { __typename?: 'PaginatedPosts' }
+    & Pick<PaginatedPosts, 'hasMore'>
+    & { posts: Array<(
+      { __typename?: 'Post' }
+      & PostSnippetFragment
+    )> }
+  ) }
+);
+
+export const PostSnippetFragmentDoc = gql`
+    fragment PostSnippet on Post {
+  id
+  title
+  textSnippet
+  points
+  createdAt
+  updatedAt
+  creator {
+    id
+    username
+  }
+}
+    `;
 export const ErrorFragmentFragmentDoc = gql`
     fragment ErrorFragment on FieldError {
   field
@@ -345,29 +364,6 @@ export const LogoutDocument = gql`
 export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
-export const PostsDocument = gql`
-    query Posts($limit: Int!, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
-    hasMore
-    posts {
-      id
-      title
-      textSnippet
-      points
-      createdAt
-      updatedAt
-      creator {
-        id
-        username
-      }
-    }
-  }
-}
-    `;
-
-export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
-};
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
   register(options: $options) {
@@ -389,4 +385,18 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const PostsDocument = gql`
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    hasMore
+    posts {
+      ...PostSnippet
+    }
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
