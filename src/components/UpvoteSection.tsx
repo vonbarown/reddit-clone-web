@@ -17,6 +17,7 @@ export const UpvoteSection: React.FC<upvoteSectionProps> = ({ post }) => {
       <IconButton
         icon="chevron-up"
         aria-label="upvote post"
+        variantColor={post.voteStatus === 1 ? "green" : undefined}
         isLoading={loadingState === "upvote-loading"}
         onClick={async () => {
           setLoadingState("upvote-loading");
@@ -31,6 +32,7 @@ export const UpvoteSection: React.FC<upvoteSectionProps> = ({ post }) => {
       <IconButton
         icon="chevron-down"
         aria-label="downvote post"
+        variantColor={post.voteStatus === -1 ? "red" : undefined}
         isLoading={loadingState === "downvote-loading"}
         onClick={async () => {
           setLoadingState("downvote-loading");
