@@ -20,6 +20,9 @@ export const UpvoteSection: React.FC<upvoteSectionProps> = ({ post }) => {
         variantColor={post.voteStatus === 1 ? "green" : undefined}
         isLoading={loadingState === "upvote-loading"}
         onClick={async () => {
+          if (post.voteStatus === 1) {
+            return;
+          }
           setLoadingState("upvote-loading");
           await vote({
             postId: post.id,
@@ -35,6 +38,9 @@ export const UpvoteSection: React.FC<upvoteSectionProps> = ({ post }) => {
         variantColor={post.voteStatus === -1 ? "red" : undefined}
         isLoading={loadingState === "downvote-loading"}
         onClick={async () => {
+          if (post.voteStatus === -1) {
+            return;
+          }
           setLoadingState("downvote-loading");
           await vote({
             postId: post.id,
